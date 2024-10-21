@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import com.example.parcial2.Model.Relaciones.PrestamoDetalles
 import com.example.parcial2.Model.Prestamos
 
 
@@ -15,8 +16,14 @@ interface PrestamosDao {
     suspend fun insert(prestamos: Prestamos): Long
 
     @Transaction
-    @Query("SELECT * FROM prestamos")
-    suspend fun getAllprestamos(): List<Prestamos>
+    @Query("""
+        SELECT libros.titulo AS tituloLibro, miembros.nombre AS nombreMiembro, miembros.apellido AS apellidoMiembro,
+               prestamos.fechaPrestamo, prestamos.fechaDevolucion
+        FROM prestamos
+        INNER JOIN libros ON prestamos.libroId = libros.libroId
+        INNER JOIN miembros ON prestamos.mienbroId = miembros.mienbroId
+    """)
+    fun getAllprestamos(): List<PrestamoDetalles>
 
     @Query("DELETE FROM prestamos WHERE prestamoId = :prestamoId")
     suspend fun deleteById(prestamoId: Int):Int

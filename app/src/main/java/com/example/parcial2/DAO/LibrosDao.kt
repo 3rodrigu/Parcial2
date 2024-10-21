@@ -5,7 +5,9 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import com.example.parcial2.Model.Relaciones.AutoresLibros
 import com.example.parcial2.Model.Libros
+import com.example.parcial2.Model.Miembros
 
 
 @Dao
@@ -14,8 +16,15 @@ interface LibrosDao {
     suspend fun insert(libros: Libros): Long
 
     @Transaction
-    @Query("SELECT l.libroId, l.titulo, l.genero FROM libros l")
-    fun getAllLibros(): List<Libros>
+    @Query("""
+        SELECT libros.libroId, libros.titulo, libros.genero, autores.nombre AS nombreAutor, autores.apellido AS apellidoAutor 
+        FROM libros
+        INNER JOIN autores ON libros.autorId = autores.autorId
+    """)
+    suspend fun getLibrosConAutores(): List<AutoresLibros>
+
+    @Query("SELECT * FROM libros")
+    suspend fun getAllLibros(): List<Libros>
 
     @Query("DELETE FROM libros WHERE libroId = :libroId")
     suspend fun deleteById(libroId: Int):Int

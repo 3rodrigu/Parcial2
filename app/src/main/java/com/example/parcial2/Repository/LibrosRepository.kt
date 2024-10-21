@@ -1,6 +1,7 @@
 package com.example.parcial2.Repository
 
 import com.example.parcial2.DAO.LibrosDao
+import com.example.parcial2.Model.Relaciones.AutoresLibros
 import com.example.parcial2.Model.Libros
 
 class LibrosRepository (private val librosDao: LibrosDao){

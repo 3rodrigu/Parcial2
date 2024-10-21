@@ -1,7 +1,4 @@
-package com.example.parcial2.Model
-
-import androidx.room.Embedded
-import androidx.room.Relation
+package com.example.parcial2.Model.Relaciones
 
 
 data class AutoresLibros(
